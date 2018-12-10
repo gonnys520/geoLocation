@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<button id="get-mylocation">MyLocation</button>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyDbCTxE0H-50KkxbQsinxaN9EIpDoXA5Qk&ver=3.exp"></script>
+
+<script>
+$(document).ready(function(){
+	
+
+	var mylocation = "";
+	
+	 $( "#get-mylocation" ).click( function(e) {
+	        e.preventDefault();
+	        /* HTML5 Geolocation */
+	        navigator.geolocation.getCurrentPosition(
+	            function( position ){ // success cb
+	 
+	                /* Current Coordinate */
+	                var lat = position.coords.latitude;
+	                var lng = position.coords.longitude;
+	                var google_map_pos = new google.maps.LatLng( lat, lng );
+	 
+	                /* Use Geocoder to get address */
+	                var google_maps_geocoder = new google.maps.Geocoder();
+	                google_maps_geocoder.geocode(
+	                    { 'latLng': google_map_pos },
+	                    function( results, status ) {
+	                        if ( status == google.maps.GeocoderStatus.OK && results[0] ) {
+	                            mylocation = results[0].formatted_address;
+	                            console.log("내위치 : " + mylocation);
+	                        }
+	                    }
+	                );
+	            },
+	            function(){ // fail cb
+	            }
+	        );
+	        
+	        
+	    });
+	 
+	
+	 
+});
+
+</script>
+
+</body>
+</html>
